@@ -1,4 +1,4 @@
-#!/home/gxy/.nvm/versions/node/v9.11.2/bin/node
+#!/usr/bin/env node
 var http = require('http');
 var fs   = require('fs');
 var argv = require('minimist')(process.argv.slice(2));

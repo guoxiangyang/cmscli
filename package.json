@@ -1,10 +1,10 @@
 {
     "name": "@gxy/cmscli",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "cms cli tools.",
     "main": "cmscli.js",
     "bin": {
-        "jsweb": "bin/jsweb.js"
+        "cmscli": "cmscli.js"
     },
     "dependencies": {
         "minimist": "*"
