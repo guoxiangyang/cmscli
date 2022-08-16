@@ -2,7 +2,6 @@ var http = require('http');
 var fs = require('fs');
 var path = require('path');
 var host = require('./host.js');
-var mkdir = require('./mkdir.js');
 function upload(base, dir, remote, done) {
     var stat = fs.statSync(base);
     if (!stat.isDirectory()) {
