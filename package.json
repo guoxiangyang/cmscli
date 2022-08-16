@@ -15,9 +15,6 @@
         "url": "git@github.com:guoxiangyang/cmscli.git"
     },
     "keywords": [
-        "web",
-        "api",
-        "framework"
     ],
     "author": "Gxy",
     "license": "MIT"
