@@ -32,6 +32,8 @@ if (argv.save) {
 var func_upload  = require('./lib/upload.js');
 var func_ls      = require('./lib/ls.js');
 var func_find    = require('./lib/find.js');
+var func_mkdir   = require('./lib/mkdir.js');
+var func_rmdir   = require('./lib/rmdir.js');
 function usage() {
     console.log(`cms command line tool
        cms [option] upload <local> <remote>
@@ -88,8 +90,26 @@ case "find" :
         // console.log(err, result);
     });
     break;
-case "mkdir" : break;
-case "rmdir" : break;
+case "mkdir" :
+    var remote = argv._[1];
+    if (!remote) {
+        usage();
+        return;
+    }
+    func_mkdir(remote, function (err, result) {
+        // console.log(err, result);
+    });
+    break;
+case "rmdir" :
+    var remote = argv._[1];
+    if (!remote) {
+        usage();
+        return;
+    }
+    func_rmdir(remote, function (err, result) {
+        // console.log(err, result);
+    });
+    break;
 case "put" : break;
 case "stat" : break;
 case "get" : break;
