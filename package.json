@@ -1,5 +1,5 @@
 {
-    "name": "cmscli",
+    "name": "@gxy/cmscli",
     "version": "0.0.1",
     "description": "cms cli tools.",
     "main": "src/cmscli.js",
@@ -7,7 +7,7 @@
         "jsweb": "bin/jsweb.js"
     },
     "dependencies": {
-        "minimist" : "*"
+        "minimist": "*"
     },
     "scripts": {},
     "repository": {
