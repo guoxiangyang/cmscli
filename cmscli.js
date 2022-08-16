@@ -1,7 +1,17 @@
 #!/usr/bin/env node
 var http = require('http');
+var path = require('path');
 var fs   = require('fs');
+var host = require('./lib/host.js');
 var argv = require('minimist')(process.argv.slice(2));
+
+host.host = argv.host;
+host.port = parseInt(argv.port, 10);
+if (!host.host || !host.port) {
+    console.error("Missing host, port", host);
+    process.exit();
+};
+var func_upload  = require('./lib/upload.js');
 function usage() {
     console.log(`cms command line tool
        cms [option] upload <local> <remote>
@@ -29,8 +39,8 @@ function mkdir(remote, callback) {
     remote = encodeURIComponent(remote);
     tree   = encodeURIComponent(tree);
     var option = {
-        host   : "localhost",
-        port   : 7000,
+        host   : host.host,
+        port   : host.port,
         path   : `/tree2/mkdir?tree=${tree}&path=${remote}`
     };
     var req = http.request(option, function (res) {
@@ -45,70 +55,6 @@ function mkdir(remote, callback) {
     });
     req.end();
 };
-function upload_file(local, remote, callback) {
-    console.log("[upload]", local, '->', remote);
-    var filename = require('path').basename(local);
-    var tree = 'fs';
-    // remote = encodeURIComponent(remote + '/' + filename);
-    remote = encodeURIComponent(remote);
-    tree   = encodeURIComponent(tree);
-    var option = {
-        method : "PUT",
-        host   : "localhost",
-        port   : 7000,
-        path   : `/tree2/put?tree=${tree}&path=${remote}`
-    };
-    try {
-        fs.accessSync(local, fs.R_OK);
-        var f = fs.createReadStream(local);
-        var req = http.request(option, function (res) {
-            var body = '';
-            res.on('data', function (chunk) {
-                body += chunk;
-            });
-            res.on('end', function () {
-                console.log("finished", local, res.statusCode, body);
-                callback();
-            });
-        });
-        f.pipe(req);
-    } catch (e) {
-        console.error(e);
-        callback();
-    }
-};
-
-var fs = require('fs');
-var path = require('path');
-function upload(base, dir, remote, done) {
-    var results = [];
-    fs.readdir(dir, function(err, list) {
-        if (err) return done(err);
-        var i = 0;
-        (function next() {
-            var file = list[i++];
-            if (!file) return done(null, results);
-            file = path.resolve(dir, file);
-            fs.stat(file, function(err, stat) {
-                if (stat && stat.isDirectory()) {
-                    var s = file.substr(base.length);
-                    mkdir(remote + s, function () {
-                        upload(base, file, remote, function(err, res) {
-                            results = results.concat(res);
-                            next();
-                        });
-                    });
-                } else {
-                    var s = file.substr(base.length);
-                    upload_file(file, remote + s, function () {
-                        results.push(file);
-                        next();
-                    });
-                }
-            });
-        })();
-    });
-};
 var cmd = argv._[0];
 switch (cmd) {
 case "upload" :
@@ -119,15 +65,9 @@ case "upload" :
         return;
     }
     local = path.resolve(local);
-    var stat = fs.statSync(local);
-    if (stat.isDirectory()) {
-        upload(local, local, remote, function (err, result) {
-            // console.log(err, result);
-        });
-    } else {
-        upload_file(local, remote, function () {
-        });
-    }
+    func_upload(local, local, remote, function (err, result) {
+        // console.log(err, result);
+    });
     break;
 case "download" : break;
 case "ls" : break;
