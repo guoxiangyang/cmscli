@@ -12,6 +12,8 @@ if (!host.host || !host.port) {
     process.exit();
 };
 var func_upload  = require('./lib/upload.js');
+var func_ls      = require('./lib/ls.js');
+var func_find    = require('./lib/find.js');
 function usage() {
     console.log(`cms command line tool
        cms [option] upload <local> <remote>
@@ -33,28 +35,6 @@ function usage() {
        -b <body>
 `);
 }
-function mkdir(remote, callback) {
-    console.log("[mkdir]", remote);
-    var tree = 'fs';
-    remote = encodeURIComponent(remote);
-    tree   = encodeURIComponent(tree);
-    var option = {
-        host   : host.host,
-        port   : host.port,
-        path   : `/tree2/mkdir?tree=${tree}&path=${remote}`
-    };
-    var req = http.request(option, function (res) {
-        var body = '';
-        res.on('data', function (chunk) {
-            body += chunk;
-        });
-        res.on('end', function () {
-            console.log("[mkdir]finished", decodeURIComponent(remote), res.statusCode, body);
-            callback();
-        });
-    });
-    req.end();
-};
 var cmd = argv._[0];
 switch (cmd) {
 case "upload" :
@@ -70,7 +50,26 @@ case "upload" :
     });
     break;
 case "download" : break;
-case "ls" : break;
+case "ls" :
+    var remote = argv._[1];
+    if (!remote) {
+        usage();
+        return;
+    }
+    func_ls(remote, function (err, result) {
+        // console.log(err, result);
+    });
+    break;
+case "find" :
+    var remote = argv._[1];
+    if (!remote) {
+        usage();
+        return;
+    }
+    func_find(remote, function (err, result) {
+        // console.log(err, result);
+    });
+    break;
 case "mkdir" : break;
 case "rmdir" : break;
 case "put" : break;
