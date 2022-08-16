@@ -1,0 +1,34 @@
+{
+    "name": "jsweb",
+    "version": "0.3.17",
+    "description": "A simple but powerful web server with js.",
+    "main": "index.js",
+    "bin": {
+        "jsweb": "bin/jsweb.js"
+    },
+    "dependencies": {
+        "pg": "*",
+        "mu2": "*",
+        "mssql": "*",
+        "mysql": "*",
+        "getopts": "*",
+        "serve-static": "*",
+        "http-proxy": "*",
+        "express": "*",
+        "body-parser": "*",
+        "strong-cluster-tls-store": "*",
+        "strong-store-cluster": "^1.x"
+    },
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:jsPLNE/jsweb.git"
+    },
+    "keywords": [
+        "web",
+        "api",
+        "framework"
+    ],
+    "author": "Gxy",
+    "license": "MIT"
+}

@@ -1,0 +1,24 @@
+{
+    "name": "cmscli",
+    "version": "0.0.1",
+    "description": "cms cli tools.",
+    "main": "src/cmscli.js",
+    "bin": {
+        "jsweb": "bin/jsweb.js"
+    },
+    "dependencies": {
+        "minimist" : "*"
+    },
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:guoxiangyang/cmscli.git"
+    },
+    "keywords": [
+        "web",
+        "api",
+        "framework"
+    ],
+    "author": "Gxy",
+    "license": "MIT"
+}
