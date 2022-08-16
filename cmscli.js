@@ -12,7 +12,6 @@ if (!host.host || !host.port) {
         var config = JSON.parse(fs.readFileSync(config_file).toString());
         host.host = config.host || null;
         host.port = config.port || 0;
-        console.log(config, host);
     } catch (e) {
         console.error(e);
     };
