@@ -30,6 +30,7 @@ if (argv.save) {
     process.exit();
 }
 var func_upload  = require('./lib/upload.js');
+var func_download  = require('./lib/download.js');
 var func_ls      = require('./lib/ls.js');
 var func_find    = require('./lib/find.js');
 var func_mkdir   = require('./lib/mkdir.js');
@@ -69,7 +70,18 @@ case "upload" :
         // console.log(err, result);
     });
     break;
-case "download" : break;
+case "download" :
+    var remote = argv._[1];
+    var local  = argv._[2] || '.';
+    if (!local || !remote) {
+        usage();
+        return;
+    }
+    local = path.resolve(local);
+    func_download(remote, local, function (err, result) {
+        // console.log(err, result);
+    });
+    break;
 case "ls" :
     var remote = argv._[1];
     if (!remote) {
