@@ -2,28 +2,31 @@
 var http = require('http');
 var path = require('path');
 var fs   = require('fs');
-var host = require('./lib/host.js');
+var opt = require('./lib/opt.js');
 var argv = require('minimist')(process.argv.slice(2));
 var config_file = process.env.HOME + '/.config/.cmscli.json';
-host.host = argv.host;
-host.port = parseInt(argv.port, 10);
-if (!host.host || !host.port) {
+opt.host = argv.host;
+opt.port = parseInt(argv.port, 10);
+if (!opt.host || !opt.port) {
     try {
         var config = JSON.parse(fs.readFileSync(config_file).toString());
-        host.host = config.host || null;
-        host.port = config.port || 0;
+        opt.host = config.host || null;
+        opt.port = config.port || 0;
+        opt.tree = config.tree || 'fs';
     } catch (e) {
         console.error(e);
     };
 };
-if (!host.host || !host.port) {
-    console.error("Missing host, port", host);
+if (!opt.host || !opt.port) {
+    console.error("Missing host, port", opt);
     process.exit();
 };
+if (argv.tree) { opt.tree = argv.tree; };
 if (argv.save) {
     var config = {
-        host : host.host,
-        port : host.port,
+        host : opt.host,
+        port : opt.port,
+        tree : opt.tree,
     }
     fs.writeFileSync(config_file, JSON.stringify(config, null, 4));
     console.log("config saved to", config_file);
