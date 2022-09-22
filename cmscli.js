@@ -2,7 +2,7 @@
 var http = require('http');
 var path = require('path');
 var fs   = require('fs');
-var opt = require('./lib/opt.js');
+var opt = {};
 var argv = require('minimist')(process.argv.slice(2));
 var config_file = process.env.HOME + '/.config/.cmscli.json';
 opt.host = argv.host;
@@ -32,12 +32,8 @@ if (argv.save) {
     console.log("config saved to", config_file);
     process.exit();
 }
-var func_upload  = require('./lib/upload.js');
-var func_download  = require('./lib/download.js');
-var func_ls      = require('./lib/ls.js');
-var func_find    = require('./lib/find.js');
-var func_mkdir   = require('./lib/mkdir.js');
-var func_rmdir   = require('./lib/rmdir.js');
+var Cms = require('./index.js');
+var cms = new Cms(opt);
 function usage() {
     console.log(`cms command line tool
        cms [option] upload <local> <remote>
@@ -69,7 +65,7 @@ case "upload" :
         return;
     }
     local = path.resolve(local);
-    func_upload(local, local, remote, function (err, result) {
+    cms.upload(local, local, remote, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -81,7 +77,7 @@ case "download" :
         return;
     }
     local = path.resolve(local);
-    func_download(remote, local, function (err, result) {
+    cms.download(remote, local, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -91,7 +87,7 @@ case "ls" :
         usage();
         return;
     }
-    func_ls(remote, function (err, result) {
+    cms.ls(remote, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -101,7 +97,7 @@ case "find" :
         usage();
         return;
     }
-    func_find(remote, function (err, result) {
+    cms.find(remote, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -111,7 +107,7 @@ case "mkdir" :
         usage();
         return;
     }
-    func_mkdir(remote, function (err, result) {
+    cms.mkdir(remote, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -121,14 +117,36 @@ case "rmdir" :
         usage();
         return;
     }
-    func_rmdir(remote, function (err, result) {
+    cms.rmdir(remote, function (err, result) {
         // console.log(err, result);
     });
     break;
 case "put" : break;
-case "stat" : break;
+case "stat" :
+    var remote = argv._[1];
+    if (!remote) {
+        usage();
+        return;
+    }
+    cms.stat(remote, function (err, result) {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log(result);
+        }
+    });
+    break;
 case "get" : break;
-case "rm" : break;
+case "rm" :
+    var remote = argv._[1];
+    if (!remote) {
+        usage();
+        return;
+    }
+    cms.rm(remote, function (err, result) {
+        // console.log(err, result);
+    });
+    break;
 default :
     console.log("Unknown cmd:", cmd);
     usage();
