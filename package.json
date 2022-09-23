@@ -1,8 +1,8 @@
 {
     "name": "@gxy/cmscli",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "cms cli tools.",
-    "main": "cmscli.js",
+    "main": "Cms.js",
     "bin": {
         "cmscli": "cmscli.js"
     },
