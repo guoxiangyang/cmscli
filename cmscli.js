@@ -3,7 +3,14 @@ var http = require('http');
 var path = require('path');
 var fs   = require('fs');
 var opt = {};
-var argv = require('minimist')(process.argv.slice(2));
+var opts = {
+    boolean : ['L', 'j', 'r'],
+    string  : ['t', 'm', 'b'],
+    default : {
+        t : 'fs',
+    }
+}
+var argv = require('minimist')(process.argv.slice(2), opts);
 var config_file = process.env.HOME + '/.config/.cmscli.json';
 opt.host = argv.host;
 opt.port = parseInt(argv.port, 10);
@@ -21,6 +28,7 @@ if (!opt.host || !opt.port) {
     console.error("Missing host, port", opt);
     process.exit();
 };
+console.log(argv);
 if (argv.tree) { opt.tree = argv.tree; };
 if (argv.save) {
     var config = {
@@ -32,7 +40,15 @@ if (argv.save) {
     console.log("config saved to", config_file);
     process.exit();
 }
-var Cms = require('./index.js');
+var option = {
+    output : {
+        json : argv.j,
+    },
+    follow_link : argv.L,
+};
+if (argv.meta) { option.meta = argv.meta; };
+if (argv.body) { option.body = argv.body; };
+var Cms = require('./Cms.js');
 var cms = new Cms(opt);
 function usage() {
     console.log(`cms command line tool
@@ -50,6 +66,7 @@ function usage() {
     
        -r recursive
        -j output json format
+       -L follow link
        -t <tree>
        -m <meta>
        -b <body>
@@ -65,7 +82,7 @@ case "upload" :
         return;
     }
     local = path.resolve(local);
-    cms.upload(local, local, remote, function (err, result) {
+    cms.upload(local, local, remote, option, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -77,7 +94,7 @@ case "download" :
         return;
     }
     local = path.resolve(local);
-    cms.download(remote, local, function (err, result) {
+    cms.download(remote, local, option, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -87,7 +104,7 @@ case "ls" :
         usage();
         return;
     }
-    cms.ls(remote, function (err, result) {
+    cms.ls(remote, option, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -97,7 +114,7 @@ case "find" :
         usage();
         return;
     }
-    cms.find(remote, function (err, result) {
+    cms.find(remote, option, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -107,7 +124,7 @@ case "mkdir" :
         usage();
         return;
     }
-    cms.mkdir(remote, function (err, result) {
+    cms.mkdir(remote, option, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -117,7 +134,7 @@ case "rmdir" :
         usage();
         return;
     }
-    cms.rmdir(remote, function (err, result) {
+    cms.rmdir(remote, option, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -128,7 +145,7 @@ case "stat" :
         usage();
         return;
     }
-    cms.stat(remote, function (err, result) {
+    cms.stat(remote, option, function (err, result) {
         if (err) {
             console.error(err);
         } else {
@@ -143,7 +160,7 @@ case "rm" :
         usage();
         return;
     }
-    cms.rm(remote, function (err, result) {
+    cms.rm(remote, option, function (err, result) {
         // console.log(err, result);
     });
     break;
