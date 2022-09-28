@@ -28,7 +28,6 @@ if (!opt.host || !opt.port) {
     console.error("Missing host, port", opt);
     process.exit();
 };
-console.log(argv);
 if (argv.tree) { opt.tree = argv.tree; };
 if (argv.save) {
     var config = {
