@@ -104,7 +104,11 @@ case "ls" :
         return;
     }
     cms.ls(remote, option, function (err, result) {
-        // console.log(err, result);
+        if (err) {
+            process.stderr.write(err);
+        } else {
+            process.stdout.write(result);
+        }
     });
     break;
 case "find" :
@@ -114,7 +118,11 @@ case "find" :
         return;
     }
     cms.find(remote, option, function (err, result) {
-        // console.log(err, result);
+        if (err) {
+            process.stderr.write(err);
+        } else {
+            process.stdout.write(result);
+        }
     });
     break;
 case "mkdir" :
@@ -124,7 +132,11 @@ case "mkdir" :
         return;
     }
     cms.mkdir(remote, option, function (err, result) {
-        // console.log(err, result);
+        if (err) {
+            process.stderr.write(err);
+        } else {
+            process.stdout.write(result);
+        }
     });
     break;
 case "rmdir" :
@@ -134,7 +146,11 @@ case "rmdir" :
         return;
     }
     cms.rmdir(remote, option, function (err, result) {
-        // console.log(err, result);
+        if (err) {
+            process.stderr.write(err);
+        } else {
+            process.stdout.write(result);
+        }
     });
     break;
 case "put" : break;
@@ -146,9 +162,9 @@ case "stat" :
     }
     cms.stat(remote, option, function (err, result) {
         if (err) {
-            console.error(err);
+            process.stderr.write(err);
         } else {
-            console.log(result);
+            process.stdout.write(result);
         }
     });
     break;
@@ -160,7 +176,11 @@ case "rm" :
         return;
     }
     cms.rm(remote, option, function (err, result) {
-        // console.log(err, result);
+        if (err) {
+            process.stderr.write(err);
+        } else {
+            process.stdout.write(result);
+        }
     });
     break;
 default :
