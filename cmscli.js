@@ -6,6 +6,10 @@ var opt = {};
 var opts = {
     boolean : ['L', 'j', 'r'],
     string  : ['t', 'm', 'b'],
+    alias   : {
+        tree : 't',
+        json : 'j'
+    },
     default : {
         t : 'fs',
     }
