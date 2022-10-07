@@ -8,7 +8,7 @@ var func_rmdir   = require('./lib/rmdir.js');
 var func_mv      = require('./lib/mv.js');
 var func_ln      = require('./lib/ln.js');
 var func_stat    = require('./lib/stat.js');
-var func_write   = require('./lib/write.js');
+var func_touch   = require('./lib/touch.js');
 var func_rm      = require('./lib/rm.js');
 
 function Cms(config) {
@@ -74,14 +74,14 @@ Cms.prototype.mkdir = function (remote, opt, callback) {
     remote = this.add_root(remote);
     func_mkdir(this.config.host, this.config.port, this.config.tree, remote, opt, callback);
 }
-Cms.prototype.write = function (remote, opt, callback) {
+Cms.prototype.touch = function (remote, opt, callback) {
     if (typeof opt === 'function') {
         callback = opt;
         opt = {};
     }
     opt = merge(this.config.opt, opt);
     remote = this.add_root(remote);
-    func_write(this.config.host, this.config.port, this.config.tree, remote, opt, callback);
+    func_touch(this.config.host, this.config.port, this.config.tree, remote, opt, callback);
 }
 Cms.prototype.rmdir = function (remote, opt, callback) {
     if (typeof opt === 'function') {
