@@ -172,6 +172,20 @@ case "stat" :
         }
     });
     break;
+case "touch" :
+    var remote = argv._[1];
+    if (!remote) {
+        usage();
+        return;
+    }
+    tree.touch(remote, option, function (err, result) {
+        if (err) {
+            process.stderr.write(err);
+        } else {
+            process.stdout.write(result);
+        }
+    });
+    break;
 case "get" : break;
 case "rm" :
     var remote = argv._[1];
