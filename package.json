@@ -4,7 +4,7 @@
     "description": "cms cli tools.",
     "main": "index.js",
     "bin": {
-        "cmscli": "cmscli.js"
+        "cms.tree": "cms.tree.js"
     },
     "dependencies": {
         "deepmerge": "^4.2.2",
