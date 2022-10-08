@@ -2,6 +2,7 @@
 var http = require('http');
 var path = require('path');
 var fs   = require('fs');
+var Tree = require('./index.js').Tree;
 var opt = {};
 var opts = {
     boolean : ['L', 'j', 'r'],
@@ -51,8 +52,7 @@ var option = {
 };
 if (argv.meta) { option.meta = argv.meta; };
 if (argv.body) { option.body = argv.body; };
-var Cms = require('./Cms.js');
-var cms = new Cms(opt);
+var tree = new Tree(opt);
 function usage() {
     console.log(`cms command line tool
        cms [option] upload <local> <remote>
@@ -85,7 +85,7 @@ case "upload" :
         return;
     }
     local = path.resolve(local);
-    cms.upload(local, local, remote, option, function (err, result) {
+    tree.upload(local, local, remote, option, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -97,7 +97,7 @@ case "download" :
         return;
     }
     local = path.resolve(local);
-    cms.download(remote, local, option, function (err, result) {
+    tree.download(remote, local, option, function (err, result) {
         // console.log(err, result);
     });
     break;
@@ -107,7 +107,7 @@ case "ls" :
         usage();
         return;
     }
-    cms.ls(remote, option, function (err, result) {
+    tree.ls(remote, option, function (err, result) {
         if (err) {
             process.stderr.write(err);
         } else {
@@ -121,7 +121,7 @@ case "find" :
         usage();
         return;
     }
-    cms.find(remote, option, function (err, result) {
+    tree.find(remote, option, function (err, result) {
         if (err) {
             process.stderr.write(err);
         } else {
@@ -135,7 +135,7 @@ case "mkdir" :
         usage();
         return;
     }
-    cms.mkdir(remote, option, function (err, result) {
+    tree.mkdir(remote, option, function (err, result) {
         if (err) {
             process.stderr.write(err);
         } else {
@@ -149,7 +149,7 @@ case "rmdir" :
         usage();
         return;
     }
-    cms.rmdir(remote, option, function (err, result) {
+    tree.rmdir(remote, option, function (err, result) {
         if (err) {
             process.stderr.write(err);
         } else {
@@ -164,7 +164,7 @@ case "stat" :
         usage();
         return;
     }
-    cms.stat(remote, option, function (err, result) {
+    tree.stat(remote, option, function (err, result) {
         if (err) {
             process.stderr.write(err);
         } else {
@@ -179,7 +179,7 @@ case "rm" :
         usage();
         return;
     }
-    cms.rm(remote, option, function (err, result) {
+    tree.rm(remote, option, function (err, result) {
         if (err) {
             process.stderr.write(err);
         } else {

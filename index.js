@@ -1,4 +1,4 @@
-var Tree = require('./tree.js');
+var Tree = require('./Tree.js');
 
 module.exports = {
     Tree : Tree
