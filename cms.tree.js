@@ -56,11 +56,13 @@ var tree = new Tree(opt);
 function usage() {
     console.log(`cms command line tool
        cms.tree [option] upload <local> <remote>
-       cms.tree [option] ls <remote> <local>
+       cms.tree [option] download <remote> <local>
 
        cms.tree [option] ls <path>
        cms.tree [option] mkdir <path>
        cms.tree [option] rmdir <path>
+       cms.tree [option] touch <path>
+       cms.tree [option] mv    <path src> <path dst>
     
        cms.tree [option] put <path> <path to localfile>
        cms.tree [option] stat <path>
@@ -179,6 +181,21 @@ case "touch" :
         return;
     }
     tree.touch(remote, option, function (err, result) {
+        if (err) {
+            process.stderr.write(err);
+        } else {
+            process.stdout.write(result);
+        }
+    });
+    break;
+case "mv" :
+    var src = argv._[1];
+    var dst = argv._[2];
+    if (!src || !dst) {
+        usage();
+        return;
+    }
+    tree.mv(src, dst, option, function (err, result) {
         if (err) {
             process.stderr.write(err);
         } else {
