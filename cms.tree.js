@@ -69,7 +69,7 @@ function usage() {
        cms.tree [option] get <path>
        cms.tree [option] rm <path>
 
-       cms.tree [option] select <path>
+       cms.tree [option] select <path> <query>
     
        -r recursive
        -j output json format
@@ -121,11 +121,13 @@ case "ls" :
     break;
 case "select" :
     var remote = argv._[1];
-    if (!remote) {
+    var query = argv._[2];
+    if (!remote || !query) {
         usage();
         return;
     }
-    tree.select(remote, option, function (err, result) {
+    
+    tree.select(remote, query, option, function (err, result) {
         if (err) {
             process.stderr.write(err);
         } else {
