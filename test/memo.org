@@ -1,0 +1,3 @@
+#+begin_src sh
+  cms.tree -t jingyun select / $'{"select" : ["inode", "name", "meta->>\'type\' as user_type"], "where" : [{ "key": "meta->>\'type\'", "value" : "user"}]}' -o '{"output" : {"path" : true} }' | jq
+#+end_src

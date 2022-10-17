@@ -6,10 +6,11 @@ var Tree = require('./index.js').Tree;
 var opt = {};
 var opts = {
     boolean : ['L', 'j', 'r'],
-    string  : ['t', 'm', 'b'],
+    string  : ['t', 'm', 'b', 'o'],
     alias   : {
         tree : 't',
-        json : 'j'
+        json : 'j',
+        option : 'j',
     },
     default : {
         t : 'fs',
@@ -45,13 +46,16 @@ if (argv.save) {
     process.exit();
 }
 var option = {
-    output : {
-        json : argv.j,
-    },
-    follow_link : argv.L,
+    output : {}
 };
+if (argv.o) {
+    option = JSON.parse(argv.o);
+}
+option.output.json = argv.j;
+option.follow_link = argv.L;
 if (argv.meta) { option.meta = argv.meta; };
 if (argv.body) { option.body = argv.body; };
+
 var tree = new Tree(opt);
 function usage() {
     console.log(`cms command line tool
