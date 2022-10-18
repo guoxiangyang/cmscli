@@ -5,12 +5,13 @@ var fs   = require('fs');
 var Tree = require('./index.js').Tree;
 var opt = {};
 var opts = {
-    boolean : ['L', 'j', 'r'],
+    boolean : ['L', 'j', 'r', 'c'],
     string  : ['t', 'm', 'b', 'o'],
     alias   : {
         tree : 't',
         json : 'j',
-        option : 'j',
+        option : 'o',
+        count : 'c',
     },
     default : {
         t : 'fs',
@@ -53,6 +54,8 @@ if (argv.o) {
 }
 option.output.json = argv.j;
 option.follow_link = argv.L;
+option.count = argv.c;
+
 if (argv.meta) { option.meta = argv.meta; };
 if (argv.body) { option.body = argv.body; };
 
