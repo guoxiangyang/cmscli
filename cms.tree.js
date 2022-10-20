@@ -13,9 +13,6 @@ var opts = {
         option : 'o',
         count : 'c',
     },
-    default : {
-        t : 'fs',
-    }
 }
 var argv = require('minimist')(process.argv.slice(2), opts);
 var config_file = process.env.HOME + '/.config/.cmscli.json';
@@ -148,6 +145,8 @@ case "find" :
         usage();
         return;
     }
+    option.stdout = process.stdout;
+    option.stderr = process.stderr;
     tree.find(remote, option, function (err, result) {
         if (err) {
             process.stderr.write(err);
