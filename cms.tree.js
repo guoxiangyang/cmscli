@@ -55,7 +55,8 @@ option.count = argv.c;
 
 if (argv.meta) { option.meta = argv.meta; };
 if (argv.body) { option.body = argv.body; };
-
+opt.stdout = process.stdout;
+opt.stderr = process.stderr;
 var tree = new Tree(opt);
 function usage() {
     console.log(`cms command line tool
@@ -145,8 +146,6 @@ case "find" :
         usage();
         return;
     }
-    option.stdout = process.stdout;
-    option.stderr = process.stderr;
     tree.find(remote, option, function (err, result) {
         if (err) {
             process.stderr.write(err);
