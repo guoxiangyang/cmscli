@@ -226,6 +226,21 @@ case "mv" :
         }
     });
     break;
+case "ln" :
+    var src = argv._[1];
+    var dst = argv._[2];
+    if (!src || !dst) {
+        usage();
+        return;
+    }
+    tree.ln(src, dst, option, function (err, result) {
+        if (err) {
+            process.stderr.write(err);
+        } else {
+            process.stdout.write(result);
+        }
+    });
+    break;
 case "get" : break;
 case "rm" :
     var remote = argv._[1];
